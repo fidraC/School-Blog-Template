@@ -25,6 +25,7 @@ Requirements:
   - Editing user data
   - Resetting passwords of other users
   - etc.
+
 SQLite databse table: `admin_accounts`
 - USER_ID INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
 - USERNAME varchar(20) UNIQUE NOT NULL,
