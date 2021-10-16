@@ -55,7 +55,7 @@ SQLite database table: `article`
 
 *Lightbulb moment: Use python markdown for content. No longer have to do complex configurations for formatting 🤯*
 
-SQLite database table: `comments`
+SQLite database table: `article_comments`
 - ID INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
 - TITLE varchar(70) UNIQUE NOT NULL,
 - CONTENT TEXT NOT NULL,
