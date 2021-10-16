@@ -57,3 +57,4 @@ SQLite database table: `comments`
 - SETTINGS integer
 
 ## Possible revision section for secondary students
+***Saving for last as it is the most difficult. (File handling should be easy, however, ensuring that the files are not malicious and preventing spam in extremely annoying and difficult.)***
