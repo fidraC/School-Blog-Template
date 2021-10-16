@@ -5,9 +5,15 @@
 2. Interactive comment system for news articles
 3. Possible revision section for secondary students 
 4. Informations about upcoming events 
-5. GUI developed in python + html (have set up the design already) 
+5. GUI developed in python + html (Chris has set up the design already) 
 6. Informations about student leader bodies 
 
+## Plan of action
+1. Set up database for admin accounts and news articles
+2. Create basic configurations and get request handling for python flask
+3. Work on post requests and backend database management
+4. Do front end html templates with bootstrap css (No javascript. Hate it)
+5. etc...
 ## Login feature for STT members and teachers
 Requirements: 
 - Database table for accounts
