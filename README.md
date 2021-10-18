@@ -9,8 +9,8 @@
 6. Informations about student leader bodies 
 
 ## Plan of action
-1. Set up database for admin accounts and news articles
-2. Create basic configurations and get request handling for python flask
+1. Set up database for admin accounts and news articles (Done)
+2. Create basic configurations and get request handling for python flask (In progress)
 3. Work on post requests and backend database management
 4. Do front end html templates with bootstrap css (No javascript. Hate it)
 5. etc...
