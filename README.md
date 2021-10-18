@@ -16,7 +16,11 @@
 @Me
 - Work on news article posting backend: Upload markdown file, title, description, etc.
 - Do some frontend templates if Chris doesn't begin working (So that proper testing of the backend can be done)
+- Continue updating database to fit requirements
 
+@Done
+- Admin login backend
+- Not much else...
 ## Login feature for STT members and teachers
 Requirements: 
 - Database table for accounts
