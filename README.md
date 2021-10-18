@@ -8,12 +8,15 @@
 5. GUI developed in python + html (Chris has set up the design already) 
 6. Informations about student leader bodies 
 
-## Plan of action
-1. Set up database for admin accounts and news articles (Done)
-2. Create basic configurations and get request handling for python flask (In progress)
-3. Work on post requests and backend database management
-4. Do front end html templates with bootstrap css (No javascript. Hate it)
-5. etc...
+## Task manager
+@Chris
+- Work on Navbar
+- Then work on login (One file is enough. I will customize later for client and admin)
+
+@Me
+- Work on news article posting backend: Upload markdown file, title, description, etc.
+- Do some frontend templates if Chris doesn't begin working (So that proper testing of the backend can be done)
+
 ## Login feature for STT members and teachers
 Requirements: 
 - Database table for accounts
