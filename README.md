@@ -22,17 +22,6 @@
 - Admin login backend
 - Not much else...
 ## Login feature for STT members and teachers
-Requirements: 
-- Database table for accounts
-- Permission system for:
-  - Creating and editing entries for
-    - News articles
-    - Upcoming events
-  - Banning users
-  - Editing user data
-  - Resetting passwords of other users
-  - etc.
-
 *Hashing algorithm: md5*
 
 *SETTINGS: Each digit will represent true or false for one permission. E.g. Digit 1 for permission to create and edit news articles, digit 2 for allowing user management, etc...*
