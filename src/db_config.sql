@@ -6,7 +6,7 @@ CREATE TABLE admin_accounts (
   settings INTEGER
 );
 DROP TABLE IF EXISTS client_accounts;
-CREATE TABLE admin_accounts (
+CREATE TABLE client_accounts (
   user_id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
   username varchar(20) UNIQUE NOT NULL,
   password_hash varchar(32) NOT NULL,
