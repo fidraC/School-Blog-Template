@@ -44,31 +44,9 @@ SQLite databse table: `admin_accounts`
 *SETTINGS: Each digit will represent true or false for one permission. E.g. Digit 1 for permission to create and edit news articles, digit 2 for allowing user management, etc...*
 
 ## Interactive comment system for news articles
-Requirements:
-- Two database tables
-  - article
-  - comments
 *Plagerized articles can be converted from pdf to markdown via online tools*
-
-
-SQLite database table: `article`
-- ID INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
-- TITLE varchar(70) UNIQUE NOT NULL,
-- DESCRIPTION TEXT NOT NULL,
-- CONTENT BLOB NOT NULL,
-- AUTHOR varchar(30) NOT NULL,
-- CREATION_DATE real NOT NULL,
-- SETTINGS integer
-
 *Lightbulb moment: Use python markdown for content. No longer have to do complex configurations for formatting 🤯*
 
-SQLite database table: `article_comments`
-- ID INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
-- TITLE varchar(70) UNIQUE NOT NULL,
-- CONTENT TEXT NOT NULL,
-- AUTHOR varchar(30) NOT NULL,
-- CREATION_DATE real NOT NULL,
-- SETTINGS integer
 
 ## Possible revision section for secondary students
 ***Saving for last as it is the most difficult. (File handling should be easy, however, ensuring that the files are not malicious and preventing spam in extremely annoying and difficult.)***
