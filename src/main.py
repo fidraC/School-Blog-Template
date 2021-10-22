@@ -1,11 +1,15 @@
-#Imports
-import sqlite3
-from flask import Flask, render_template, request, url_for, flash, redirect, make_response, session
-from flask.ext.session import Session
+#Flask
+from flask import *
+from flask_session import Session
+#Production
 from werkzeug.exceptions import abort
-import os.path
-from hashlib import md5
 from werkzeug.utils import secure_filename
+#Utilities
+from hashlib import md5
+import sqlite3
+#Websocket
+from flask_socketio import SocketIO, emit, disconnect
+from threading import Lock
 
 #Configs
 app = Flask(__name__)
@@ -13,6 +17,11 @@ app.config['SECRET_KEY'] = 'c40a650584b50cb7d928f44d58dcaffc'
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.secret_key = "0de03e1a949f142951868617004aa54b"
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+#Socket
+async_mode = None
+socket_ = SocketIO(app, async_mode=async_mode)
+thread = None
+thread_lock = Lock()
 
 #Utility functions
 def getMD5(plaintext):
@@ -70,3 +79,39 @@ def admin_index():
     else:
         flash('Error')
         redirect(url_for('admin_index'))
+
+
+
+#Chat
+@app.route('/admin/chat')
+def index():
+    return render_template('admin/chat.html', async_mode=socket_.async_mode)
+
+
+@socket_.on('my_event', namespace='/admin/chat/namespace')
+def test_message(message):
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my_response',
+         {'data': message['data'], 'count': session['receive_count']})
+
+
+@socket_.on('my_broadcast_event', namespace='/admin/chat/namespace')
+def test_broadcast_message(message):
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my_response',
+         {'data': message['data'], 'count': session['receive_count']},
+         broadcast=True)
+
+
+@socket_.on('disconnect_request', namespace='/admin/chat/namespace')
+def disconnect_request():
+    @copy_current_request_context
+    def can_disconnect():
+        disconnect()
+
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my_response',
+         {'data': 'Disconnected!', 'count': session['receive_count']},
+         callback=can_disconnect)
+#Run app
+app.run(port = 8080)
