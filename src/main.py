@@ -79,39 +79,5 @@ def admin_index():
     else:
         flash('Error')
         redirect(url_for('admin_index'))
-
-
-
-#Chat
-@app.route('/admin/chat')
-def index():
-    return render_template('admin/chat.html', async_mode=socket_.async_mode)
-
-
-@socket_.on('my_event', namespace='/admin/chat/namespace')
-def test_message(message):
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': message['data'], 'count': session['receive_count']})
-
-
-@socket_.on('my_broadcast_event', namespace='/admin/chat/namespace')
-def test_broadcast_message(message):
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': message['data'], 'count': session['receive_count']},
-         broadcast=True)
-
-
-@socket_.on('disconnect_request', namespace='/admin/chat/namespace')
-def disconnect_request():
-    @copy_current_request_context
-    def can_disconnect():
-        disconnect()
-
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': 'Disconnected!', 'count': session['receive_count']},
-         callback=can_disconnect)
 #Run app
 app.run(port = 8080)
