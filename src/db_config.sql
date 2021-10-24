@@ -8,6 +8,7 @@ CREATE TABLE admin_accounts (
 DROP TABLE IF EXISTS client_accounts;
 CREATE TABLE client_accounts (
   user_id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
+  email varchar(89) UNIQUE NOT NULL,
   username varchar(20) UNIQUE NOT NULL,
   password_hash varchar(32) NOT NULL,
   settings INTEGER
