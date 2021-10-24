@@ -7,6 +7,8 @@ from werkzeug.utils import secure_filename
 #Utilities
 from hashlib import md5
 import sqlite3
+#import markdown
+import markdown
 #Websocket
 from flask_socketio import SocketIO, emit, disconnect
 from threading import Lock
@@ -40,6 +42,10 @@ def authenticate_admin(username, hashpass):
         return True
     else:
         return False
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 #App routes
     #Admin login
 @app.route('/admin/login')
@@ -79,5 +85,17 @@ def admin_index():
     else:
         flash('Error')
         redirect(url_for('admin_index'))
+
+    #Testing for posts
+@app.route('/STT/posts/<string:post_id>')
+def render_post(post_id):
+    try:
+        filename = "markdown_files/stt/"+post_id+"/index.md"
+        markdown_file = open(filename, 'r').read()
+        content = markdown.markdown(markdown_file)
+    except Exception as e:
+        content = "Error"
+    return content
+    #Testing for uploading posts
 #Run app
 app.run(port = 8080)
