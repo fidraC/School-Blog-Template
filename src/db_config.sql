@@ -41,9 +41,12 @@ CREATE TABLE reports (
   reported_user_id INTEGER NOT NULL,
   reported_message_id INTEGER NOT NULL
 );
-DROP TABLE IF EXISTS STTpost;
-CREATE TABLE STTpost (
+DROP TABLE IF EXISTS STTposts;
+CREATE TABLE STTposts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    preview BLOB,
     content TEXT NOT NULL
 );

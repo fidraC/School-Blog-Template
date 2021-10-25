@@ -1,0 +1,30 @@
+{% extends 'defaults/base.html' %}
+
+{% block title %}STT | New post{% endblock %}
+
+{% block content %}
+<!--Heading-->
+<div class="container">
+  <div class='container-sm'>
+    <h1 >New post</h1>
+  </div>
+  <!--Form-->
+  <div class="container">
+    <form action="/STT/new_post" method="post" enctype="multipart/form-data">
+      <h6>Title: </h6>
+      <input type="text" name="post_title" placeholder="Title" id="title" />
+      <br>
+      <h6>Description: </h6>
+      <textarea name="post_description" id='description' placeholder="Description" rows='5' cols="80" maxlength="400"></textarea>
+      <br>
+      <h6>Markdown content: </h6>
+      <input type="file" name="post_content" id="content">
+      <br><br>
+      <h6>Preview Image: </h6>
+      <input type="file" name="post_preview" id="preview">
+      <br><br>
+      <input type='submit' class='btn btn-primary' value='Submit' />
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -38,14 +38,17 @@ def authenticate_admin(username, hashpass):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
     dbhash = str(cur.execute('SELECT password_hash FROM admin_accounts WHERE username = ?', (username,)).fetchone())
+    conn.close()
     if hashpass == dbhash:
         return True
     else:
         return False
-def get_db_connection():
+def stt_post_to_db(post_title, post_description, post_preview, post_content):
     conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+    cur = conn.cursor()
+    cur.execute('INSERT INTO STTposts (title, description, preview, content) VALUES (?,?,?,?)', (post_title, post_description, post_preview, post_content))
+    conn.commit()
+    conn.close()
 #App routes
     #Admin login
 @app.route('/admin/login')
@@ -90,12 +93,25 @@ def admin_index():
 @app.route('/STT/posts/<string:post_id>')
 def render_post(post_id):
     try:
-        filename = "markdown_files/stt/"+post_id+"/index.md"
+        filename = "markdown_files/STT/"+post_id+"/index.md"
         markdown_file = open(filename, 'r').read()
         content = markdown.markdown(markdown_file)
     except Exception as e:
         content = "Error"
     return content
     #Testing for uploading posts
+@app.route('/STT/new_post', methods=('GET', 'POST'))
+def new_post():
+    if request.method == 'GET':
+        return render_template('STT/new_post.html')
+    elif request.method == 'POST':
+        post_title = request.form['post_title']
+        post_description = request.form['post_description']
+        post_preview = request.files['post_preview'].read()
+        post_content = request.files['post_content'].read()
+        stt_post_to_db(post_title, post_description, post_preview, post_content)
+        flash("Success")
+        return redirect(url_for('new_post'))
 #Run app
-app.run(port = 8080)
+if __name__=="__main__":
+    app.run(debug=True)
