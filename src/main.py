@@ -1,6 +1,7 @@
 #Flask
 from flask import *
-from flask_session import Session
+#Use server side secure sessions
+from flask_Session import Session
 #Production
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
@@ -49,7 +50,7 @@ def get_post_data(post_id):
     #Admin login
 @app.route('/admin/login')
 def admin_login():
-    if 'admin_id' not in session:
+    if 'admin_id' not in Session:
         if request.method == 'GET':
             return render_template('admin/login.html')
         elif request.method == 'POST':
@@ -58,7 +59,7 @@ def admin_login():
             hashpass = getMD5(password)
             correct = authenticate_admin(username, hashpass)
             if correct == True:
-                session['admin_id'] = username
+                Session['admin_id'] = username
                 flash('Logged in')
                 return redirect(url_for('admin_index'))
             elif correct == False:
@@ -71,9 +72,9 @@ def admin_login():
     #Admin index
 @app.route('/admin', methods=('GET', 'POST'))
 def admin_index():
-    if 'admin_id' not in session:
+    if 'admin_id' not in Session:
         return redirect(url_for('admin_login'))
-    elif 'admin_id' in session:
+    elif 'admin_id' in Session:
         if request.method == 'GET':
             return render_template('admin/index.html')
         #Administrative actions
