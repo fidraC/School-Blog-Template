@@ -35,12 +35,16 @@ def authenticate_admin(username, hashpass):
         return True
     else:
         return False
-def stt_post_to_db(post_title, post_description, post_preview, post_content):
+def post_to_db(post_title, post_description, post_preview, post_content, department):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
-    cur.execute('INSERT INTO STTposts (title, description, preview, content) VALUES (?,?,?,?)', (post_title, post_description, post_preview, post_content))
+    cur.execute('INSERT INTO posts (title, description, preview, content, department) VALUES (?,?,?,?,?)', (post_title, post_description, post_preview, post_content, department))
     conn.commit()
     conn.close()
+def get_post_data(post_id):
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    post_data = cur.execute('SELECT * FROM posts WHERE id = ?', post_id).fetcheone()
 #App routes
     #Admin login
 @app.route('/admin/login')
@@ -82,7 +86,7 @@ def admin_index():
         redirect(url_for('admin_index'))
 
     #Testing for posts
-@app.route('/STT/posts/<string:post_id>')
+@app.route('/posts/<string:post_id>')
 def render_post(post_id):
     try:
         filename = "markdown_files/STT/"+post_id+"/index.md"
@@ -92,16 +96,17 @@ def render_post(post_id):
         content = "Error"
     return content
     #Testing for uploading posts
-@app.route('/STT/new_post', methods=('GET', 'POST'))
+@app.route('/admin/new_post', methods=('GET', 'POST'))
 def new_post():
     if request.method == 'GET':
-        return render_template('STT/new_post.html')
+        return render_template('admin/new_post.html')
     elif request.method == 'POST':
         post_title = request.form['post_title']
         post_description = request.form['post_description']
         post_preview = request.files['post_preview'].read()
         post_content = request.files['post_content'].read()
-        stt_post_to_db(post_title, post_description, post_preview, post_content)
+        department = request.form['post_department']
+        post_to_db(post_title, post_description, post_preview, post_content, department)
         flash("Success")
         return redirect(url_for('new_post'))
 #Run app

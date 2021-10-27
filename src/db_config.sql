@@ -13,18 +13,8 @@ CREATE TABLE client_accounts (
   password_hash varchar(32) NOT NULL,
   settings INTEGER
 );
-DROP TABLE IF EXISTS article;
-CREATE TABLE article (
-  id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
-  title varchar(70) UNIQUE NOT NULL,
-  description TEXT NOT NULL,
-  content TEXT NOT NULL,
-  author varchar(20) NOT NULL,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  settings integer
-);
-DROP TABLE IF EXISTS article_comments;
-CREATE TABLE article_comments (
+DROP TABLE IF EXISTS comments;
+CREATE TABLE comments(
   id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
   title varchar(70) UNIQUE NOT NULL,
   content TEXT NOT NULL,
@@ -32,8 +22,8 @@ CREATE TABLE article_comments (
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   settings integer
 );
-DROP TABLE IF EXISTS reports;
-CREATE TABLE reports (
+DROP TABLE IF EXISTS reported_user;
+CREATE TABLE reported_user (
   id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
   title varchar(70) UNIQUE NOT NULL,
   details TEXT NOT NULL,
@@ -41,12 +31,13 @@ CREATE TABLE reports (
   reported_user_id INTEGER NOT NULL,
   reported_message_id INTEGER NOT NULL
 );
-DROP TABLE IF EXISTS STTposts;
-CREATE TABLE STTposts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+DROP TABLE IF EXISTS posts;
+CREATE TABLE posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     preview BLOB,
-    content TEXT NOT NULL
+    content TEXT NOT NULL,
+    department TEXT NOT NULL
 );
