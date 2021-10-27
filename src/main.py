@@ -9,9 +9,6 @@ from hashlib import md5
 import sqlite3
 #import markdown
 import markdown
-#Websocket
-from flask_socketio import SocketIO, emit, disconnect
-from threading import Lock
 
 #Configs
 app = Flask(__name__)
@@ -19,11 +16,6 @@ app.config['SECRET_KEY'] = 'c40a650584b50cb7d928f44d58dcaffc'
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.secret_key = "0de03e1a949f142951868617004aa54b"
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-#Socket
-async_mode = None
-socket_ = SocketIO(app, async_mode=async_mode)
-thread = None
-thread_lock = Lock()
 
 #Utility functions
 def getMD5(plaintext):
