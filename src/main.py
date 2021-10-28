@@ -1,7 +1,5 @@
 #Flask
 from flask import *
-#Use server side secure sessions
-from flask_Session import Session
 #Production
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
@@ -53,18 +51,25 @@ def get_post_data(post_id):
 @app.route('/logout')
 def logout():
     try:
-        if 'admin_id' in Session:
-            Session.pop('admin_id')
-            Session.pop('admin_department')
-        if 'client_id' in Session:
-            Session.pop('client_id')
+        if 'admin_id' in session:
+            session.pop('admin_id')
+            session.pop('admin_department')
+        if 'client_id' in session:
+            session.pop('client_id')
             flash("Logged out")
     except Exception as e:
         flash("Not signed in")
-    #Admin login
+    return redirect(url_for('index'))
+
+#Client
+@app.route('/')
+def index():
+    return "Nothing here yet"
+
+#Admin
 @app.route('/admin/login')
 def admin_login():
-    if 'admin_id' not in Session:
+    if 'admin_id' not in session:
         if request.method == 'GET':
             return render_template('admin/login.html')
         elif request.method == 'POST':
@@ -73,8 +78,8 @@ def admin_login():
             hashpass = getMD5(password)
             correct, admin_department = authenticate_admin(username, hashpass)
             if correct == True:
-                Session['admin_id'] = username
-                Session['admin_department'] = admin_department
+                session['admin_id'] = username
+                session['admin_department'] = admin_department
                 flash('Logged in')
                 return redirect(url_for('admin_index'))
             elif correct == False:
@@ -87,9 +92,9 @@ def admin_login():
     #Admin index
 @app.route('/admin', methods=('GET', 'POST'))
 def admin_index():
-    if 'admin_id' not in Session:
+    if 'admin_id' not in session:
         return redirect(url_for('admin_login'))
-    elif 'admin_id' in Session:
+    elif 'admin_id' in session:
         if request.method == 'GET':
             return render_template('admin/index.html')
         #Administrative actions
@@ -115,10 +120,11 @@ def render_post(post_id):
 @app.route('/admin/new_post', methods=('GET', 'POST'))
 def new_post():
     if request.method == 'GET':
-        if Session['admin_department'] == 'root':
-            return render_template('admin/root_new_post.html')
-        elif 'admin_department' in Session:
-            return render_template('admin/new_post.html', department = Session['admin_department'])
+        if 'admin_department' in session:
+            if session['admin_department'] == 'root':
+                return render_template('admin/root_new_post.html')
+            else:
+                return render_template('admin/new_post.html', department = session['admin_department'])
         else:
             #return redirect(url_for('admin_login'))
             return render_template('admin/root_new_post.html')
