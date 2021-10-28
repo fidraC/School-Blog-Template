@@ -3,6 +3,7 @@ CREATE TABLE admin_accounts (
   user_id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
   username varchar(20) UNIQUE NOT NULL,
   password_hash varchar(32) NOT NULL,
+  department TEXT NOT NULL,
   settings INTEGER
 );
 DROP TABLE IF EXISTS client_accounts;

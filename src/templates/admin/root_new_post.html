@@ -1,4 +1,4 @@
-{% extends 'admin/base.html' %}
+{% extends 'defaults/base.html' %}
 
 {% block title %}Admin | New post{% endblock %}
 
@@ -18,7 +18,12 @@
       <textarea name="post_description" id='description' placeholder="Description" rows='5' cols="80" maxlength="400"></textarea>
       <br>
       <h6>Department: </h6>
-      <<input type="text" name="post_department" value="{{department}}">>
+      <select name="post_department" id="department">
+        <option value="STT">Student Tech Team</option>
+        <option value="UNC">UN Committee</option>
+        <option value="SC">Student Council</option>
+        <<option value="Generic">Generic</option>
+      </select>
       <br>
       <h6>Markdown content: </h6>
       <input type="file" name="post_content" id="content">
