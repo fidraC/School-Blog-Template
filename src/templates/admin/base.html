@@ -29,15 +29,30 @@
             <a class="nav-link" href="{{url_for('new_post')}}">New post</a>
           </li>
         </ul>
-
-        <form class="d-flex" action="{{url_for('logout')}}">
-          <button class="btn btn-outline-warning" type="submit">Logout</button>
-        </form>
-
+        <ul class="navbar-nav">
+          {% if 'admin_id' not in session %}
+          <li class="nav-item">
+            <form class="d-flex" action="{{url_for('admin_login')}}">
+              <button class="btn btn-outline-success" type="submit">Login</button>
+            </form>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <form class="d-flex" action="{{url_for('logout')}}">
+              <button class="btn btn-danger btn-outline-warning" type="submit">Logout</button>
+            </form>
+          </li>
+          {% endif %}
+        </ul>
       </div>
     </div>
   </nav>
-  <!--Content-->
+  <br><br><br>
+  <div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-primary">{{ message }}</div>
+    {% endfor %}
+    <!--Content-->
     <div class="container">
       {% block content %}
 

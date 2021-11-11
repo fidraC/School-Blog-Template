@@ -38,7 +38,7 @@ CREATE TABLE posts (
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
-    preview BLOB,
+    preview TEXT,
     content TEXT NOT NULL,
     department TEXT NOT NULL
 );
