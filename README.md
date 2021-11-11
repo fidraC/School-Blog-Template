@@ -1,4 +1,7 @@
 # YCISCQ-Website
+By: Antonio Cheong (Cheong Yu Xuan) 
+
+Part of my IBDP Student Tech Team CAS project
 
 ## Features
 1. Login feature for STT members and teachers
