@@ -13,17 +13,17 @@ Part of my IBDP Student Tech Team CAS project
 
 ## Task manager
 @Chris
-- Work on Navbar
-- Then work on login (One file is enough. I will customize later for client and admin)
+- Hopefully do *some* frontend. Not sure if he will have time.
 
 @Me
-- Work on news article posting backend: Upload markdown file, title, description, etc.
-- Do some frontend templates if Chris doesn't begin working (So that proper testing of the backend can be done)
+- Complete post index and pages
+- Start on commenting system
 - Continue updating database to fit requirements
 
 @Done
-- Admin login backend
-- Not much else...
+- News and events posting
+- Rendering uploaded post's markdown content
+- Admin login
 ## Login feature for STT members and teachers
 *Hashing algorithm: md5*
 
