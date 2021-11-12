@@ -47,14 +47,14 @@ def authenticate_admin(username, hashpass):
         return False, None
 def post_to_db(post_title, post_description, post_preview, post_content, department):
     try:
-        preview_filename = post_preview.filename
+        preview_filename = secure_filename(post_preview.filename)
         preview_file_ext = preview_filename.rsplit('.', 1)[1].lower()
         preview_filePath = 'uploads/preview_imgs/' + getMD5(preview_filename) + str(randint(0,999)) + '.' + preview_file_ext
         post_preview.save(preview_filePath)
     except Exception as e:
         filePath = None
     try:
-        markdown_filename = post_content.filename
+        markdown_filename = secure_filename(post_content.filename)
         markdown_file_ext = markdown_filename.rsplit('.', 1)[1].lower()
         markdown_filePath = 'uploads/markdown_files' + getMD5(markdown_filename) + str(randint(0,999)) + '.' + markdown_file_ext
         post_content.save(markdown_filePath)
