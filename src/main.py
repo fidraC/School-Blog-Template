@@ -81,6 +81,10 @@ def get_post_content(post_id):
         return markdown_content
     else:
         return 'Error'
+def dbConnect():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 #App routes
 @app.route('/logout')
 def logout():
@@ -99,12 +103,25 @@ def logout():
 @app.route('/')
 def index():
     return "Nothing here yet"
-    #Testing for posts
-@app.route('/posts/<string:post_id>')
-def render_post(post_id):
+#Posts index page
+@app.route('/posts')
+def post_index():
+    conn - dbConnect()
+    posts_data = conn.execute('SELECT title, description, preview, department, created FROM posts').fetchall()
+    return render_template('posts/index.html', posts_data = posts_data)
+#Main post page
+@app.route('/posts/<:string:post_id>')
+def post_page(post_id):
+    conn = dbConnect()
+    post_data = conn.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
+    conn.close()
+    return render_template('posts/post_page.html', post_data = post_data)
+
+#Post content
+@app.route('/posts/content/<string:post_id>')
+def render_post_content(post_id):
     markdown_content = get_post_content(post_id)
     return markdown_content
-    #return render_template('posts/render_post.html', post_content = markdown_content)
 #Admin
 @app.route('/admin/login', methods=('GET','POST'))
 def admin_login():
