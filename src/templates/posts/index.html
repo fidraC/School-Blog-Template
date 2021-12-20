@@ -1,0 +1,30 @@
+{% extends 'defaults/base.html' %}
+
+{% block title %}Client | Posts{% endblock %}
+
+{% block head %}
+<style>
+  #preview_img { height: 12rem; overflow: auto; }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Posts</h1>
+<div class="container">
+  <div class="row">
+    {% for post in posts_data %}
+    <div class="col">
+      <div class="card" style="background-color:#4E4E4E; width: 23rem; height: 35rem; margin: 5px;">
+        <div id="preview_img"><img src="/{{post['preview']}}" alt="Preview image" class="card-img-top"></div>
+        <div class="card-body">
+          <h3 class="card-title"><a href="/posts/{{post['id']}}">{{post['title']}}</a></h3>
+          <pre class="card-subtitle">{{post['created']}}</pre>
+          <pre>By: {{post['department']}}</pre>
+          <p class="card-text">{{post['description']}}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

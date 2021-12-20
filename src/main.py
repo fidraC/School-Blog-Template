@@ -24,13 +24,6 @@ def getMD5(plaintext):
     m.update(plaintext.encode('utf-8'))
     hash = str(m.hexdigest())
     return hash
-def normalizeDB(text):
-    text = text.replace("('", "")
-    text = text.replace("',)", "")
-    text = text.replace("\\n", '\n')
-    text = text.replace('(#")', "")
-    text = text.replace('",)', "")
-    return text
 def saveFile(preview, md):
     print(str(preview.filename))
     if preview.filename != '':
@@ -46,7 +39,6 @@ def saveFile(preview, md):
     markdown_filePath = 'uploads/markdown_files/' + getMD5(markdown_filename) + str(randint(0,999)) + '.' + markdown_file_ext
     md.save(markdown_filePath)
     return preview_filePath, markdown_filePath
-#App functions
 def authenticate(username, hashpass, type):
     #Connect to sql database and get username and password
     conn = sqlite3.connect('database.db')
@@ -88,25 +80,12 @@ def post_to_db(post_title, post_description, post_preview, post_content, departm
      (post_title, post_description, preview_filePath, markdown_filePath, department))
     conn.commit()
     conn.close()
-def get_post_content(post_id):
-    conn = sqlite3.connect('database.db')
-    cur = conn.cursor()
-    filePath = conn.execute('SELECT content FROM posts WHERE id = ?', (post_id,)).fetchone()
-    conn.close()
-    if filePath != None:
-        try:
-            f = open(filePath[0], 'r')
-            content = f.read()
-            markdown_content = markdown.markdown(content)
-        except Exception as e:
-            markdown_content = 'Error'
-        return markdown_content
-    else:
-        return 'Error'
 def dbConnect():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
     return conn
+
+
 #App routes
 @app.route('/logout')
 def logout():
@@ -125,14 +104,6 @@ def logout():
 @app.route('/')
 def index():
     return "Nothing here yet"
-#Posts index page
-@app.route('/posts')
-def post_index():
-    conn = dbConnect()
-    posts_data = conn.execute('SELECT * FROM posts').fetchall()
-    conn.close()
-    return "Waiting for Chris..."
-    #return render_template('posts/index.html', posts_data = posts_data)
 @app.route('/login')
 def login():
     if 'client_id' not in session:
@@ -157,7 +128,15 @@ def login():
     else:
         flash("Already logged in")
         return redirect(url_for('index'))
-#Main post page
+
+
+#Posts
+@app.route('/posts')
+def post_index():
+    conn = dbConnect()
+    posts_data = conn.execute('SELECT * FROM posts ORDER BY created DESC').fetchall()
+    conn.close()
+    return render_template('posts/index.html', posts_data = posts_data)
 @app.route('/posts/<int:post_id>')
 def post_page(post_id):
     conn = dbConnect()
@@ -180,11 +159,7 @@ def post_page(post_id):
             markdown_content = 'Error'
         return render_template('posts/post_page.html', post_data = post_data , markdown_content = markdown_content)
 
-#Post content
-@app.route('/posts/content/<int:post_id>')
-def render_post_content(post_id):
-    markdown_content = get_post_content(post_id)
-    return markdown_content
+
 #Admin
 @app.route('/admin/login', methods=('GET','POST'))
 def admin_login():
@@ -245,6 +220,9 @@ def new_post():
             return redirect(url_for('new_post'))
     else:
         return redirect(url_for('admin_login'))
+
+
+
 #Run app
 if __name__=="__main__":
     app.run(debug=True, port=8080, host="0.0.0.0")

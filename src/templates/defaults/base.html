@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-{% block head %}
+
 <head>
   <!--Required meta tags-->
   <meta charset="utf-8">
@@ -8,8 +8,9 @@
   <!--Bootstrap css-->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
   <title>{% block title %}{% endblock %}</title>
+  {% block head %}
+  {% endblock %}
 </head>
-{% endblock %}
 
 {% block navbar %}
 <body>
@@ -34,13 +35,13 @@
           {% if 'cliend_id' not in session %}
           <li class="nav-item">
             <form class="d-flex" action="{{url_for('login')}}">
-              <button class="btn btn-outline-success" type="submit">Login</button>
+              <button class="btn btn-success btn-outline-white" type="submit">Login</button>
             </form>
           </li>
           {% else %}
           <li class="nav-item">
             <form class="d-flex" action="{{url_for('logout')}}">
-              <button class="btn btn-danger btn-outline-warning" type="submit">Logout</button>
+              <button class="btn btn-danger btn-outline-white" type="submit">Logout</button>
             </form>
           </li>
           {% endif %}
@@ -62,6 +63,7 @@
 </div>
 </div>
 {% block footer %}
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <footer style="background-color:#434444;">
 <div class="container">
 <h3 class="text-primary">YCISCQ STT - Coding Department (Antonio and Chris)</h3>

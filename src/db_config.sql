@@ -1,32 +1,32 @@
 DROP TABLE IF EXISTS admin_accounts;
 CREATE TABLE admin_accounts (
   user_id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
-  username varchar(20) UNIQUE NOT NULL,
-  password_hash varchar(32) NOT NULL,
+  username TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
   department TEXT NOT NULL,
   settings INTEGER
 );
 DROP TABLE IF EXISTS client_accounts;
 CREATE TABLE client_accounts (
   user_id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
-  email varchar(89) UNIQUE NOT NULL,
-  username varchar(20) UNIQUE NOT NULL,
-  password_hash varchar(32) NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  username TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
   settings INTEGER
 );
 DROP TABLE IF EXISTS comments;
 CREATE TABLE comments(
   id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
-  title varchar(70) UNIQUE NOT NULL,
+  title TEXT UNIQUE NOT NULL,
   content TEXT NOT NULL,
-  author varchar(20) NOT NULL,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  author TEXT NOT NULL,
+  created DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME')),
   settings integer
 );
 DROP TABLE IF EXISTS reported_user;
 CREATE TABLE reported_user (
   id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT NOT NULL,
-  title varchar(70) UNIQUE NOT NULL,
+  title TEXT UNIQUE NOT NULL,
   details TEXT NOT NULL,
   author_id INTEGER NOT NULL,
   reported_user_id INTEGER NOT NULL,
