@@ -1,0 +1,11 @@
+{% extends 'defaults/base.html' %}
+{% block title %} {{post_data['title']}} {% endblock %}
+{% block content %}
+<div class="container">
+  <center>
+    <h1>{{post_data['title']}} </h1>
+    <pre>{{post_data['created']}}</pre>
+  </center>
+<span>{{markdown_content |safe}}</span>
+</div>
+{% endblock %}
