@@ -25,7 +25,6 @@ def getMD5(plaintext):
     hash = str(m.hexdigest())
     return hash
 def saveFile(preview, md):
-    print(str(preview.filename))
     if preview.filename != '':
         preview_filename = secure_filename(preview.filename)
         preview_file_ext = preview_filename.rsplit('.', 1)[1].lower()
@@ -50,9 +49,6 @@ def authenticate(username, hashpass, type):
         if hashpass == dbhash[0]:
             return True, admin_department[0]
         else:
-            print("username: " + username)
-            print("dbhash: " + dbhash[0])
-            print("hashpass: " + hashpass)
             return False, None
     elif type == 'client':
         dbhash = cur.execute('SELECT password_hash FROM client_accounts WHERE username = ?', (username,)).fetchone()
@@ -61,9 +57,6 @@ def authenticate(username, hashpass, type):
         if hashpass == dbhash[0]:
             return True
         else:
-            print("username: " + username)
-            print("dbhash: " + dbhash[0])
-            print("hashpass: " + hashpass)
             return False
     else:
         return False
@@ -73,7 +66,6 @@ def post_to_db(post_title, post_description, post_preview, post_content, departm
     except Exception as e:
         preview_filePath = None
         markdown_filePath = None
-        print("FAIL")
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
     cur.execute('INSERT INTO posts (title, description, preview, content, department) VALUES (?,?,?,?,?)',
@@ -152,10 +144,8 @@ def post_page(post_id):
                 content = f.read()
                 markdown_content = markdown.markdown(content)
             except Exception as e:
-                print(e)
                 markdown_content = 'Error'
         else:
-            print("None")
             markdown_content = 'Error'
         return render_template('posts/post_page.html', post_data = post_data , markdown_content = markdown_content)
 
