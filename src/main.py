@@ -46,15 +46,21 @@ def authenticate(username, hashpass, type):
         dbhash = cur.execute('SELECT password_hash FROM admin_accounts WHERE username = ?', (username,)).fetchone()
         admin_department = cur.execute('SELECT department FROM admin_accounts WHERE username = ?', (username,)).fetchone()
         conn.close()
-        if hashpass == dbhash[0]:
-            return True, admin_department[0]
+        if dbhash != None:
+            if hashpass == dbhash[0]:
+                return True, admin_department[0]
+            else:
+                return False, None
         else:
             return False, None
     elif type == 'client':
         dbhash = cur.execute('SELECT password_hash FROM client_accounts WHERE username = ?', (username,)).fetchone()
         conn.close()
-        if hashpass == dbhash[0]:
-            return True
+        if dbhash != None:
+            if hashpass == dbhash[0]:
+                return True
+            else:
+                return False
         else:
             return False
     else:
