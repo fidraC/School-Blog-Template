@@ -13,7 +13,5 @@ cur.execute('INSERT INTO admin_accounts (username, password_hash, department) VA
 connection.commit()
 connection.close()
 
-rmtree("static/img/preview_imgs")
 rmtree("uploads/markdown_files")
-mkdir("static/img/preview_imgs")
 mkdir("uploads/markdown_files")
