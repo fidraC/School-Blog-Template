@@ -86,11 +86,8 @@
         label: '🌓'
         autoMatchOsTheme: true
       }
-      const darkmode = new Darkmode(options);
-      darkmode.showWidget();
-
       function addDarkmodeWidget() {
-        new Darkmode().showWidget();
+        new Darkmode(options).showWidget();
       }
       window.addEventListener('load', addDarkmodeWidget);
     </script>
