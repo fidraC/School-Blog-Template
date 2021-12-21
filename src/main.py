@@ -111,7 +111,7 @@ def logout():
 #Client
 @app.route('/')
 def index():
-    return "Nothing here yet"
+    return render_template('defaults/index.html')
 @app.route('/signup', methods=('GET','POST'))
 def signup():
     if 'client_id' not in session:
@@ -141,7 +141,6 @@ def signup():
         flash('Already logged in')
         return redirect(url_for('index'))
 
-
 @app.route('/login', methods=('GET','POST'))
 def login():
     if 'client_id' not in session:
@@ -166,7 +165,6 @@ def login():
     else:
         flash("Already logged in")
         return redirect(url_for('index'))
-
 
 #Posts
 @app.route('/posts')
