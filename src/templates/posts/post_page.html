@@ -18,13 +18,6 @@
 {% endblock %}
 
 {% block comments %}
-<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
-<script>
-  function addDarkmodeWidget() {
-    new Darkmode().showWidget();
-  }
-  window.addEventListener('load', addDarkmodeWidget);
-</script>
 <section id="isso-thread"></section>
 <script data-isso="//{{ request.host }}/isso/" src="//{{ request.host }}/isso/js/embed.min.js"></script>
 {% endblock %}
