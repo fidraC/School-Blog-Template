@@ -1,5 +1,11 @@
 {% extends 'defaults/base.html' %}
+
 {% block title %} {{post_data['title']}} {% endblock %}
+
+{% block head %}
+<script data-isso="//{{ request.host }}/isso/" src="//{{ request.host }}/isso/js/embed.min.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="container">
   <center>
@@ -19,5 +25,4 @@
 
 {% block comments %}
 <section id="isso-thread"></section>
-<script data-isso="//{{ request.host }}/isso/" src="//{{ request.host }}/isso/js/embed.min.js"></script>
 {% endblock %}

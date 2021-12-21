@@ -13,7 +13,7 @@
 </head>
 
 
-<body class="bg-dark text-light">
+<body class="bg-light text-dark">
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
     <div class="container-fluid">
@@ -62,7 +62,7 @@
     {% block footer %}
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <footer>
-      <div class="container bg-secondary">
+      <div class="container-fluid bg-secondary">
         <h3 class="text-warning">YCISCQ STT - Coding Department (Antonio and Chris)</h3>
         <p>
           Attribution-NonCommercial-ShareAlike
@@ -73,6 +73,26 @@
       </div>
     </footer>
     {% endblock %}
+    <script src="/static/js/darkmode-js.min.js"></script>
+    <script>
+      const options = {
+        bottom: '64px', // default: '32px'
+        right: '32px', // default: '32px'
+        time: '0.5s', // default: '0.3s'
+        mixColor: '#fff', // default: '#fff'
+        backgroundColor: '#fff', // default: '#fff'
+        buttonColorDark: '#100f2c', // default: '#100f2c'
+        buttonColorLight: '#fff', // default: '#fff'
+        saveInCookies: true, // default: true,
+        label: '🌓', // default: ''
+        autoMatchOsTheme: true // default: true
+      }
+
+      function addDarkmodeWidget() {
+        new Darkmode(options).showWidget();
+      }
+      window.addEventListener('load', addDarkmodeWidget);
+    </script>
 </body>
 
 </html>

@@ -2,6 +2,11 @@
 
 {% block title %}Admin | New post{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="/static/css/simplemde.min.css">
+<script src="/static/js/simplemde.min.js"></script>
+{% endblock %}
+
 {% block content %}
 <!--Heading-->
 <div class="container">
@@ -30,7 +35,7 @@
       {% endif %}
       <br>
       <h6>Markdown content: </h6>
-      <textarea name="post_content" rows="15" cols="100"></textarea>
+      <textarea name="post_content" rows="15" cols="100" id="markdown_editor"></textarea>
       <br><br>
       <h6>Preview Image: </h6>
       <input type="file" name="post_preview" id="preview">
@@ -39,4 +44,7 @@
     </form>
   </div>
 </div>
+<script>
+var simplemde = new SimpleMDE({ element: document.getElementById("markdown_editor") });
+</script>
 {% endblock %}
