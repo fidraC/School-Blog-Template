@@ -10,13 +10,16 @@
   <span>{{markdown_content |safe}}</span>
 </div>
 <br><br><br><br>
-<section class="section">
-  <div id="isso-thread"></div>
-</section>
 {% if session['admin_department'] ==  'root' %}
 <br><br>
 <a href="/admin/posts/edit/{{post_data['id']}}" class="btn btn-primary btn-outline-warning">Edit</a>
 <br><br>
 {% endif %}
+{% endblock %}
+
+{% block comments %}
+<section class="section">
+  <div id="isso-thread"></div>
+</section>
 <script data-isso="//{{ request.host }}/isso/" data-isso-require-author="true" data-isso-require-email="true" src="//{{ request.host }}/isso/js/embed.min.js"></script>
 {% endblock %}
