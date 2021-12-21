@@ -9,4 +9,9 @@
   </center>
 <span>{{markdown_content |safe}}</span>
 </div>
+{% if session['admin_department'] ==  'root' %}
+<br><br>
+<a href="/admin/posts/edit/{{post_data['id']}}" class="btn btn-primary btn-outline-warning">Edit</a>
+<br><br>
+{% endif %}
 {% endblock %}

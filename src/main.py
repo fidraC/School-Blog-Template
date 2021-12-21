@@ -72,10 +72,32 @@ def post_to_db(post_title, post_description, post_preview, post_content, departm
      (post_title, post_description, preview_filePath, markdown_filePath, department))
     conn.commit()
     conn.close()
+def update_post_db(id, post_title, post_description, post_content, department):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    markdown_filePath = cur.execute('SELECT content FROM posts WHERE id = ?', (id,)).fetchone()
+    cur.execute('UPDATE posts SET title = ?, description = ?, department = ? WHERE id = ?', (post_title, post_description, department, id))
+    conn.commit()
+    conn.close()
+    if markdown_filePath != None:
+        f = open(markdown_filePath[0], 'w')
+        f.write(post_content)
+        f.close()
+    else:
+        flash('Hey hacker. GO AWAY')
+def delete_post(id):
+    conn, cur = dbConnCur()
+    cur.execute('DELETE FROM posts WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
 def dbConnect():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
     return conn
+def dbConnCur():
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    return conn, cur
 def userExists(email, username):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
@@ -237,7 +259,7 @@ def admin_index():
     else:
         flash('Error')
         redirect(url_for('admin_index'))
-    #Testing for uploading posts
+
 @app.route('/admin/new_post', methods=('GET', 'POST'))
 def new_post():
     if 'admin_id' in session:
@@ -255,7 +277,31 @@ def new_post():
     else:
         return redirect(url_for('admin_login'))
 
-
+@app.route('/admin/posts/edit/<int:post_id>', methods=('GET', 'POST'))
+def edit_post(post_id):
+    if request.method == 'GET':
+        if session['admin_id'] == 'root':
+            conn = dbConnect()
+            post_data = conn.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
+            conn.close()
+            content = open(str(post_data['content']), 'r').read()
+            return render_template('admin/edit.html', post_data = post_data, markdown_content = content)
+        else:
+            flash('Permission Denied')
+            return redirect(url_for('index'))
+    elif request.method == 'POST':
+        if request.form['action'] == 'edit':
+            post_title = request.form['post_title']
+            post_description = request.form['post_description']
+            post_content = request.form['post_content']
+            department = request.form['post_department']
+            update_post_db(post_id, post_title, post_description, post_content, department)
+        elif request.form['action'] == 'delete':
+            delete_post(post_id)
+        else:
+            flash("GO AWAY HACKER")
+        flash('Done')
+        return redirect(url_for('post_index'))
 
 #Run app
 if __name__=="__main__":
