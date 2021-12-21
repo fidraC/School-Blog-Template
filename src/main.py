@@ -33,10 +33,10 @@ def saveFile(preview, md):
     else:
         preview_filePath = "static/img/preview_imgs/404.png"
     #Required
-    markdown_filename = secure_filename(md.filename)
-    markdown_file_ext = markdown_filename.rsplit('.', 1)[1].lower()
-    markdown_filePath = 'uploads/markdown_files/' + getMD5(markdown_filename) + str(randint(0,999)) + '.' + markdown_file_ext
-    md.save(markdown_filePath)
+    markdown_filePath = 'uploads/markdown_files/' + getMD5(md) + str(randint(0,9999)) + '.md'
+    f = open(markdown_filePath, 'w')
+    f.write(md)
+    f.close()
     return preview_filePath, markdown_filePath
 def authenticate(username, hashpass, type):
     #Connect to sql database and get username and password
@@ -274,7 +274,7 @@ def new_post():
             post_title = request.form['post_title']
             post_description = request.form['post_description']
             post_preview = request.files['post_preview']
-            post_content = request.files['post_content']
+            post_content = request.form['post_content']
             department = request.form['post_department']
             post_to_db(post_title, post_description, post_preview, post_content, department)
             flash("Success")
