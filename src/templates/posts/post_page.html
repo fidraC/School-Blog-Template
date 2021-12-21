@@ -18,8 +18,6 @@
 {% endblock %}
 
 {% block comments %}
-<section class="section">
-  <div id="isso-thread"></div>
-</section>
-<script data-isso="//{{ request.host }}/isso/" data-isso-require-author="true" data-isso-require-email="false" src="//{{ request.host }}/isso/js/embed.min.js"></script>
+<section id="isso-thread"></section>
+<script data-isso="//{{ request.host }}/isso/" src="//{{ request.host }}/isso/js/embed.min.js"></script>
 {% endblock %}
