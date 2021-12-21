@@ -1,5 +1,6 @@
 import sqlite3
-
+from shutil import rmtree
+from os import mkdir
 connection = sqlite3.connect('database.db')
 
 with open('db_config.sql') as f:
@@ -11,3 +12,8 @@ cur.execute('INSERT INTO admin_accounts (username, password_hash, department) VA
 
 connection.commit()
 connection.close()
+
+rmtree("static/img/preview_imgs")
+rmtree("uploads/markdown_files")
+mkdir("static/img/preview_imgs")
+mkdir("uploads/markdown_files")

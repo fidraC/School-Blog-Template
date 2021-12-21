@@ -76,6 +76,22 @@ def dbConnect():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
     return conn
+def userExists(email, username):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    existingEmail = cur.execute('SELECT * FROM client_accounts WHERE email = ?', (email,)).fetchone()
+    existingUsername = cur.execute('SELECT * FROM client_accounts WHERE username = ?', (username,)).fetchone()
+    conn.close()
+    if existingEmail == None and existingUsername == None:
+        return False
+    else:
+        return True
+def addAccount(email, username, hashedPassword):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    cur.execute('INSERT INTO client_accounts (email, username, password_hash) VALUES (?, ?, ?)', (email, username, hashedPassword))
+    conn.commit()
+    conn.close()
 
 
 #App routes
@@ -96,13 +112,43 @@ def logout():
 @app.route('/')
 def index():
     return "Nothing here yet"
-@app.route('/login')
+@app.route('/signup', methods=('GET','POST'))
+def signup():
+    if 'client_id' not in session:
+        if request.method == 'GET':
+            return render_template('defaults/signup.html')
+        elif request.method == 'POST':
+            email = request.form['email']
+            username = request.form['username']
+            password = request.form['password']
+            verify = request.form['verify']
+            if password != verify:
+                flash('Passwords do not match')
+                return redirect(url_for('signup'))
+            else:
+                if userExists(email, username) == True:
+                    flash('User already exists')
+                    return redirect(url_for('signup'))
+                else:
+                    hashedPassword = getMD5(password)
+                    addAccount(email, username, hashedPassword)
+                    session['client_id'] = username
+                    flash(str('Successfully signed up as ' + username))
+                    return redirect(url_for('index'))
+        else:
+            return render_template('defaults/404.html')
+    else:
+        flash('Already logged in')
+        return redirect(url_for('index'))
+
+
+@app.route('/login', methods=('GET','POST'))
 def login():
     if 'client_id' not in session:
         if request.method == 'GET':
             return render_template('defaults/login.html')
         elif request.method == 'POST':
-            username = str(request.form['username'])
+            username = request.form['username']
             password = request.form['password']
             hashpass = getMD5(password)
             type = 'client'
@@ -157,7 +203,7 @@ def admin_login():
         if request.method == 'GET':
             return render_template('admin/login.html')
         elif request.method == 'POST':
-            username = str(request.form['username'])
+            username = request.form['username']
             password = request.form['password']
             hashpass = getMD5(password)
             type = 'admin'
