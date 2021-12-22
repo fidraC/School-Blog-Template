@@ -1,5 +1,5 @@
 # YCISCQ-Website
-By: Antonio Cheong (Cheong Yu Xuan) 
+By: Antonio Cheong (Cheong Yu Xuan) and Chris Lee
 
 Part of my IBDP Student Tech Team CAS project
 
@@ -18,11 +18,8 @@ Part of my IBDP Student Tech Team CAS project
 @Me
 - Make modular
   - Use JSON config file for departments and admins
-  - Make school name in navbar also configurable through config file
   - Use markdown for index pages and allow admin to edit through admin interface directly
 - Delete comments table from sql
-- Create new organization and fork this repo for offical YCISCQ website
-- Make this repo into generic one for future reference
 
 @Postponed
 - Information on student leader bodies
