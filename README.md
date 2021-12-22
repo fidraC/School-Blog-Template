@@ -4,41 +4,35 @@ By: Antonio Cheong (Cheong Yu Xuan)
 Part of my IBDP Student Tech Team CAS project
 
 ## Features
-1. Login feature for STT members and teachers
-2. Interactive comment system for news articles
-3. Possible revision section for secondary students 
-4. Informations about upcoming events 
-5. GUI developed in python + html (~~Chris has set up the design already~~) 
-6. Informations about student leader bodies 
+1. Administration and moderation ✅ (/admin)
+2. Interactive comment system for news articles ✅ (/isso)
+3. Possible revision section for secondary students (/revision)
+4. Informations about upcoming events ✅ (/posts)
+5. Front end client interface (/)
+6. Informations about student leader bodies (/about)
 
 ## Task manager
 @Chris
-- ~~Hopefully do *some* frontend. Not sure if he will have time.~~
+- Not sure...
 
 @Me
-- Complete post index and pages
-- Continue updating database to fit requirements
+- Make modular
+  - Use JSON config file for departments and admins
+  - Make school name in navbar also configurable through config file
+  - Use markdown for index pages and allow admin to edit through admin interface directly
+- Delete comments table from sql
+- Create new organization and fork this repo for offical YCISCQ website
+- Make this repo into generic one for future reference
 
 @Postponed
-- Commenting System
 - Information on student leader bodies
 - Beautifying frontend by Chris
+- Possible revision section for secondary students
 
 @Done
-- Posting
-- Rendering uploaded post's markdown content
-- Admin login
-- Client login
-## Login feature for STT members and teachers
-*Hashing algorithm: md5*
+- Posting and displaying posts
+- Authentication
+- Commenting
+- Darkmode / Lightmode themes
+- Inline markdown editor
 
-~~*SETTINGS: Each digit will represent true or false for one permission. E.g. Digit 1 for permission to create and edit news articles, digit 2 for allowing user management, etc...*~~
-
-## Interactive comment system for news articles
-*Plagerized articles can be converted from pdf to markdown via online tools*
-
-*Lightbulb moment: Use python markdown for content. No longer have to do complex configurations for formatting 🤯*
-
-
-## Possible revision section for secondary students
-***Saving for last as it is the most difficult. (File handling should be easy, however, ensuring that the files are not malicious and preventing spam in extremely annoying and difficult.)***
