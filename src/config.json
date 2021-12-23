@@ -1,0 +1,16 @@
+{
+  "school_name": "YCISCQ",
+  "admin_accounts": [
+    {
+      "username": "root",
+      "password": "ROOTadmin16!",
+      "department": "root"
+    },
+    {
+      "username": "STT",
+      "password": "STTadmin16!",
+      "department": "Student Tech Team"
+    }
+  ],
+  "departments": ["Student Tech Team", "UN Committee", "Student Support Group", "Third-party", "Surveys", "Staff", "Health and Safety", "Student Council"]
+}

@@ -25,10 +25,11 @@
       <h6>Department: </h6>
       {% if department == 'root' %}
       <select name="post_department" id="department">
-        <option value="Generic">Generic</option>
-        <option value="STT">Student Tech Team</option>
-        <option value="UNC">UN Committee</option>
-        <option value="SC">Student Council</option>
+        <option value="Default">Default</option>
+        {% for department in available_departments %}
+          <option value="{{department}}">{{department}}</option>
+        {% endfor %}
+
       </select>
       {% else %}
         <input type="text" name="post_department" value="{{department}}" readonly>

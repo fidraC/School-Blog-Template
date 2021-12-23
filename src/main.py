@@ -9,6 +9,8 @@ import sqlite3
 from random import randint
 #import markdown
 import markdown
+#JSON
+import json
 
 #Configs
 app = Flask(__name__)
@@ -17,6 +19,9 @@ app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.secret_key = "0de03e1a949f142951868617004aa54b"
 ALLOWED_IMG_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 ALLOWED_MD_EXTENSIONS = {'md', 'txt'}
+
+config = str(open('config.json', 'r').read())
+available_departments = json.loads(config)['departments']
 
 #Utility functions
 def getMD5(plaintext):
@@ -31,7 +36,7 @@ def saveFile(preview, md):
         preview_filePath = 'static/img/preview_imgs/' + getMD5(preview_filename) + str(randint(0,999)) + '.' + preview_file_ext
         preview.save(preview_filePath)
     else:
-        preview_filePath = "static/img/preview_imgs/404.png"
+        preview_filePath = "static/img/404/404.png"
     #Required
     markdown_filePath = 'uploads/markdown_files/' + getMD5(md) + str(randint(0,9999)) + '.md'
     f = open(markdown_filePath, 'w')
@@ -130,7 +135,7 @@ def logout():
             session.pop('admin_department')
         if 'client_id' in session:
             session.pop('client_id')
-            flash("Logged out")
+        flash("Logged out")
     except Exception as e:
         flash("Not signed in")
     return redirect(url_for('index'))
@@ -271,7 +276,7 @@ def admin_index():
 def new_post():
     if 'admin_id' in session:
         if request.method == 'GET':
-            return render_template('admin/new_post.html', department = session['admin_department'])
+            return render_template('admin/new_post.html', department = session['admin_department'], available_departments = available_departments)
         elif request.method == 'POST':
             post_title = request.form['post_title']
             post_description = request.form['post_description']
@@ -292,7 +297,7 @@ def edit_post(post_id):
             post_data = conn.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
             conn.close()
             content = open(str(post_data['content']), 'r').read()
-            return render_template('admin/edit.html', post_data = post_data, markdown_content = content)
+            return render_template('admin/edit.html', post_data = post_data, markdown_content = content, available_departments = available_departments)
         elif request.method == 'POST':
             if request.form['action'] == 'edit':
                 post_title = request.form['post_title']
