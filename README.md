@@ -1,5 +1,5 @@
 # YCISCQ-Website
-By: Antonio Cheong (Cheong Yu Xuan) 
+By: Antonio Cheong (Cheong Yu Xuan) and Chris Lee
 
 Part of my IBDP Student Tech Team CAS project
 
