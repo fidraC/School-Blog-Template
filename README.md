@@ -16,18 +16,12 @@ Part of my IBDP Student Tech Team CAS project
 - Not sure...
 
 @Me
-- Make modular
-  - Use JSON config file for departments and admins
-  - Make school name in navbar also configurable through config file
-  - Use markdown for index pages and allow admin to edit through admin interface directly
-- Delete comments table from sql
-- Create new organization and fork this repo for offical YCISCQ website
-- Make this repo into generic one for future reference
+- Possible revision section for secondary students
+- Information on student leader bodies
 
 @Postponed
-- Information on student leader bodies
-- Beautifying frontend by Chris
-- Possible revision section for secondary students
+- Full frontend by Chris
+
 
 @Done
 - Posting and displaying posts
@@ -35,4 +29,9 @@ Part of my IBDP Student Tech Team CAS project
 - Commenting
 - Darkmode / Lightmode themes
 - Inline markdown editor
+- Make modular
+  - Use JSON config file for departments and admins
+  - Make school name in navbar also configurable through config file
+  - Use markdown for index pages and allow admin to edit through admin interface directly
+- Create new organization and fork this repo for offical YCISCQ website
 
