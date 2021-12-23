@@ -1,0 +1,30 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Admin | Edit webpage{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/css/simplemde-theme-dark.min.css">
+<script src="/static/js/simplemde.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<!--Heading-->
+<div class="container">
+  <div class='container-sm'>
+    <h1>Edit {{page}}</h1>
+  </div>
+  <!--Form-->
+  <div class="container">
+    <form action="#" method="post" enctype="multipart/form-data">
+      <h6>Markdown content: </h6>
+      <textarea name="markdown_content" rows="20" cols="100" id="markdown_editor">{{markdown_content}}</textarea>
+      <br><br>
+      <input type='submit' class='btn btn-primary' value='Submit' />
+    </form>
+    <br><br>
+  </div>
+</div>
+<script>
+var simplemde = new SimpleMDE({ element: document.getElementById("markdown_editor") });
+</script>
+{% endblock %}

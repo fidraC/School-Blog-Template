@@ -3,5 +3,14 @@
 {% block title %}Admin | Home{% endblock %}
 
 {% block content %}
-<p>Waiting for Chris... In the meantime, <a href="/admin/new_post">post stuff here</a>.</p>
+<div class="container-sm">
+<span>{{markdown_content |safe}}</span>
+</div>
+
+{% if session['admin_department'] == 'root' %}
+<br><br><br><br>
+<div class="container">
+  <a href="{{url_for('webpage_edit', page = 'admin_index')}}" class="btn btn-warning btn-outline-danger">Edit</a>
+</div>
+{% endif %}
 {% endblock %}

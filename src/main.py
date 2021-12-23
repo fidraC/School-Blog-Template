@@ -138,7 +138,8 @@ def logout():
 #Client
 @app.route('/')
 def index():
-    return render_template('defaults/index.html')
+    markdown_content = markdown.markdown(open('templates/markdown_files/index.md', 'r').read())
+    return render_template('defaults/index.html', markdown_content = markdown_content)
 @app.route('/signup', methods=('GET','POST'))
 def signup():
     if 'client_id' not in session:
@@ -220,7 +221,6 @@ def post_page(post_id):
             markdown_content = 'Error'
         return render_template('posts/post_page.html', post_data = post_data , markdown_content = markdown_content)
 
-
 #Admin
 @app.route('/admin/login', methods=('GET','POST'))
 def admin_login():
@@ -252,10 +252,12 @@ def admin_login():
 @app.route('/admin', methods=('GET', 'POST'))
 def admin_index():
     if 'admin_id' not in session:
+        flash('Access Denied')
         return redirect(url_for('admin_login'))
     elif 'admin_id' in session:
         if request.method == 'GET':
-            return render_template('admin/index.html')
+            markdown_content = markdown.markdown(open('templates/markdown_files/admin_index.md', 'r').read())
+            return render_template('admin/index.html', markdown_content = markdown_content)
         #Administrative actions
         elif request.method == 'POST':
             action = request.form['action']
@@ -284,30 +286,44 @@ def new_post():
 
 @app.route('/admin/posts/edit/<int:post_id>', methods=('GET', 'POST'))
 def edit_post(post_id):
-    if request.method == 'GET':
-        if session['admin_id'] == 'root':
+    if session['admin_id'] == 'root':
+        if request.method == 'GET':
             conn = dbConnect()
             post_data = conn.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
             conn.close()
             content = open(str(post_data['content']), 'r').read()
             return render_template('admin/edit.html', post_data = post_data, markdown_content = content)
-        else:
-            flash('Permission Denied')
-            return redirect(url_for('index'))
-    elif request.method == 'POST':
-        if request.form['action'] == 'edit':
-            post_title = request.form['post_title']
-            post_description = request.form['post_description']
-            post_content = request.form['post_content']
-            department = request.form['post_department']
-            update_post_db(post_id, post_title, post_description, post_content, department)
-        elif request.form['action'] == 'delete':
-            delete_post(post_id)
-        else:
-            flash("GO AWAY HACKER")
-        flash('Done')
-        return redirect(url_for('post_index'))
+        elif request.method == 'POST':
+            if request.form['action'] == 'edit':
+                post_title = request.form['post_title']
+                post_description = request.form['post_description']
+                post_content = request.form['post_content']
+                department = request.form['post_department']
+                update_post_db(post_id, post_title, post_description, post_content, department)
+            elif request.form['action'] == 'delete':
+                delete_post(post_id)
+            else:
+                flash("GO AWAY HACKER")
+            flash('Done')
+            return redirect(url_for('post_index'))
+    else:
+        flash('Permission Denied')
+        return redirect(url_for('index'))
 
+@app.route('/admin/webpage_edit/<string:page>', methods=('GET', 'POST'))
+def webpage_edit(page):
+    if session['admin_department'] == 'root':
+        if request.method == 'GET':
+            markdown_content = open(str('templates/markdown_files/' + page + '.md'), 'r').read()
+            return render_template('admin/webpage_edit.html', markdown_content = markdown_content, page = page)
+        elif request.method == 'POST':
+            markdown_content = request.form['markdown_content']
+            markdown_file = open(str('templates/markdown_files/' + page + '.md'), 'w').write(markdown_content)
+            flash('Success')
+            return redirect(url_for(str(page)))
+    else:
+        flash('Permission Denied')
+        return redirect(url_for('index'))
 #Run app
 if __name__=="__main__":
     app.run(debug=True, port=8000, host="127.0.0.1")

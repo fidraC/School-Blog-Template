@@ -4,10 +4,14 @@
 
 {% block content %}
 <div class="container-sm">
-<h1>About Us</h1>
-<pre>'Us' being the STT coding department</pre>
-<br>
-<p>Blah blah blah blah... Chris will replace this pointless page soon.</p>
-<p>The posts by leadership bodies in YCISCQ are <a href="/posts">here</a>.</p>
+<span>{{markdown_content |safe}}</span>
 </div>
+{% endblock %}
+
+{% block comments %}
+{% if session['admin_department'] == 'root' %}
+<div class="container">
+  <a href="{{url_for('webpage_edit', page = 'index')}}" class="btn btn-warning btn-outline-danger">Edit</a>
+</div>
+{% endif %}
 {% endblock %}
