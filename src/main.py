@@ -4,7 +4,9 @@ from flask import *
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
 #Utilities
-from hashlib import md5
+from hashlib import pbkdf2_hmac, md5, sha256
+from binascii import hexlify
+from os import urandom
 import sqlite3
 from random import randint
 #import markdown
@@ -24,6 +26,10 @@ config = str(open('config.json', 'r').read())
 available_departments = json.loads(config)['departments']
 
 #Utility functions
+def getHash(plaintext, salt):
+    m = pbkdf2_hmac('sha256', bytes(plaintext, 'utf-8'), salt, 200000)
+    hash = hexlify(m)
+    return (salt + hash).decode('utf-8')
 def getMD5(plaintext):
     m = md5()
     m.update(plaintext.encode('utf-8'))
@@ -43,7 +49,7 @@ def saveFile(preview, md):
     f.write(md)
     f.close()
     return preview_filePath, markdown_filePath
-def authenticate(username, hashpass, type):
+def authenticate(username, password, type):
     #Connect to sql database and get username and password
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
@@ -52,7 +58,11 @@ def authenticate(username, hashpass, type):
         admin_department = cur.execute('SELECT department FROM admin_accounts WHERE username = ?', (username,)).fetchone()
         conn.close()
         if dbhash != None:
-            if hashpass == dbhash[0]:
+            dbhash_components = dbhash[0].split('endofsalt')
+            salt = str(dbhash_components[0] + 'endofsalt').encode('utf-8')
+            dbhash = dbhash_components[1]
+            hashpass = getHash(password, salt).split('endofsalt')[1]
+            if hashpass == dbhash:
                 return True, admin_department[0]
             else:
                 return False, None
@@ -62,7 +72,11 @@ def authenticate(username, hashpass, type):
         dbhash = cur.execute('SELECT password_hash FROM client_accounts WHERE username = ?', (username,)).fetchone()
         conn.close()
         if dbhash != None:
-            if hashpass == dbhash[0]:
+            dbhash_components = dbhash[0].split('endofsalt')
+            salt = str(dbhash_components[0] + 'endofsalt').encode('utf-8')
+            dbhash = dbhash_components[1]
+            hashpass = getHash(password, salt).split('endofsalt')[1]
+            if hashpass == dbhash:
                 return True
             else:
                 return False
@@ -118,9 +132,10 @@ def userExists(email, username):
         return False
     else:
         return True
-def addAccount(email, username, hashedPassword):
-    conn = sqlite3.connect('database.db')
-    cur = conn.cursor()
+def addAccount(email, username, password):
+    conn, cur = dbConnCur()
+    salt = str(sha256(urandom(60)).hexdigest() + "endofsalt").encode('utf-8')
+    hashedPassword = getHash(password, salt)
     cur.execute('INSERT INTO client_accounts (email, username, password_hash) VALUES (?, ?, ?)', (email, username, hashedPassword))
     conn.commit()
     conn.close()
@@ -163,8 +178,7 @@ def signup():
                     flash('User already exists')
                     return redirect(url_for('signup'))
                 else:
-                    hashedPassword = getMD5(password)
-                    addAccount(email, username, hashedPassword)
+                    addAccount(email, username, password)
                     session['client_id'] = username
                     flash(str('Successfully signed up as ' + username))
                     return redirect(url_for('index'))
@@ -182,9 +196,8 @@ def login():
         elif request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
-            hashpass = getMD5(password)
             type = 'client'
-            correct = authenticate(username, hashpass, type)
+            correct = authenticate(username, password, type)
             if correct == True:
                 session['client_id'] = username
                 flash(str('Logged in as ' + username ))
@@ -235,9 +248,8 @@ def admin_login():
         elif request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
-            hashpass = getMD5(password)
             type = 'admin'
-            correct, department = authenticate(username, hashpass, type)
+            correct, department = authenticate(username, password, type)
             if correct == True:
                 session['admin_id'] = username
                 session['admin_department'] = department
