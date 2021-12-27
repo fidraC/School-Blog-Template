@@ -9,7 +9,7 @@ Part of my IBDP Student Tech Team CAS project
 3. Possible revision section for secondary students (/revision)
 4. Informations about upcoming events ✅ (/posts)
 5. Front end client interface (/)
-6. Informations about student leader bodies (/about)
+6. Informations about student leader bodies ✅ (/about)
 
 ## Task manager
 @Chris
@@ -17,7 +17,6 @@ Part of my IBDP Student Tech Team CAS project
 
 @Me
 - Possible revision section for secondary students
-- Information on student leader bodies
 
 @Postponed
 - Full frontend by Chris
@@ -34,4 +33,5 @@ Part of my IBDP Student Tech Team CAS project
   - Make school name in navbar also configurable through config file
   - Use markdown for index pages and allow admin to edit through admin interface directly
 - Create new organization and fork this repo for offical YCISCQ website
+- Information on student leader bodies
 
