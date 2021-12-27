@@ -1,0 +1,17 @@
+{% extends 'defaults/base.html' %}
+
+{% block title %}Client | About{% endblock %}
+
+{% block content %}
+<div class="container-sm">
+<span>{{markdown_content |safe}}</span>
+</div>
+{% endblock %}
+
+{% block comments %}
+{% if session['admin_department'] == 'root' %}
+<div class="container">
+  <a href="{{url_for('webpage_edit', page = 'about')}}" class="btn btn-warning btn-outline-danger">Edit</a>
+</div>
+{% endif %}
+{% endblock %}

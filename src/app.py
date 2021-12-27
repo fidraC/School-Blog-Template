@@ -160,6 +160,12 @@ def logout():
 def index():
     markdown_content = markdown.markdown(open('templates/markdown_files/index.md', 'r').read())
     return render_template('defaults/index.html', markdown_content = markdown_content)
+
+@app.route('/about')
+def about():
+    markdown_content = markdown.markdown(open('templates/markdown_files/about.md', 'r').read())
+    return render_template('defaults/about.html', markdown_content = markdown_content)
+
 @app.route('/signup', methods=('GET','POST'))
 def signup():
     if 'client_id' not in session:
