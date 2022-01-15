@@ -13,7 +13,7 @@ admin_accounts = config_json['admin_accounts']
 
 
 def getHash(plaintext):
-    salt = sha256(urandom(60)).hexdigest().encode('utf-8')
+    salt = str(sha256(urandom(60)).hexdigest() + "endofsalt").encode('utf-8')
     m = pbkdf2_hmac('sha256', bytes(plaintext, 'utf-8'), salt, 200000)
     hash = hexlify(m)
     return (salt + hash).decode('utf-8')
