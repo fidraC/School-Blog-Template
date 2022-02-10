@@ -20,7 +20,6 @@ app.config['SECRET_KEY'] = 'c40a650584b50cb7d928f44d58dcaffc'
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.secret_key = "0de03e1a949f142951868617004aa54b"
 ALLOWED_IMG_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-ALLOWED_MD_EXTENSIONS = {'md', 'txt'}
 
 config = str(open('config.json', 'r').read())
 available_departments = json.loads(config)['departments']
@@ -39,8 +38,12 @@ def saveFile(preview, md):
     if preview.filename != '':
         preview_filename = secure_filename(preview.filename)
         preview_file_ext = preview_filename.rsplit('.', 1)[1].lower()
-        preview_filePath = 'static/img/preview_imgs/' + getMD5(preview_filename) + str(randint(0,999)) + '.' + preview_file_ext
-        preview.save(preview_filePath)
+        if preview_file_ext in ALLOWED_IMG_EXTENSIONS:
+            preview_filePath = 'static/img/preview_imgs/' + getMD5(preview_filename) + str(randint(0,999)) + '.' + preview_file_ext
+            preview.save(preview_filePath)
+        else:
+            flash("Not an image...")
+            preview_filePath = "static/img/404/404.png"
     else:
         preview_filePath = "static/img/404/404.png"
     #Required
