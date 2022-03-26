@@ -1,11 +1,11 @@
 #Flask
 from flask import *
 #Production
-from werkzeug.exceptions import abort
-from werkzeug.utils import secure_filename
+from werkzeug.exceptions import abort #abort processes when rasied exception
+from werkzeug.utils import secure_filename #uploading - encoding
 #Utilities
-from hashlib import pbkdf2_hmac, md5, sha256
-from binascii import hexlify
+from hashlib import pbkdf2_hmac, md5, sha256 #hashing encoding/password/image
+from binascii import hexlify #required for hashing
 from os import urandom
 import sqlite3
 from random import randint

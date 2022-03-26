@@ -1,7 +1,7 @@
 # School Blog Template
-By: Antonio Cheong
+By: Antonio Cheong and DaHyeon Lee
 
-Serves as the basis for my CAS project at YCISCQ-Student-Tech-Team/YCISCQ-Website. This will be a personal project without the vision being clouded by multiple collaborators. I hope to one day expand this project to the scale of ManageBac...
+YCISCQ-Student-Tech-Team/YCISCQ-Website.
 
 ## Features
 1. Administration and moderation ✅ (/admin)
@@ -22,20 +22,7 @@ Serves as the basis for my CAS project at YCISCQ-Student-Tech-Team/YCISCQ-Websit
     - /revision/new
     - /revision/index
     - /revision/page/post_id
-
-How to incentivize students to use this feature?
-- Point system?
-- Merits?
-- $$$?
-Perhaps: 
-```
-Creators: Students who post notes and other content
-Consumers: Students who download content from the Creators
-```
-Creators can set 'prices' to their content, meaning that the consumers must pay that amount in points to download the content. The creators will therefore receive that amount of points when consumers download their content.
-Each new user begins with 5 points
-If enough people begin using this feature, allow people to purchase 'points' with real money?????????? (I'll keep dreaming of profiting off of this... Just a dream)
-
+ - Frontend templates
 
 @Done
 - Posting and displaying posts
